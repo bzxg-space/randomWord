@@ -1,0 +1,177 @@
+<!-- 
+	时间：20-5-9
+	功能：调用免费句子api显示句子（大字体）
+		地址后加不同的值显示不同类型的句子
+			?a-一言
+			?b-毒鸡汤
+			?c-土味情话
+			?d-古诗词
+	作者：bzxg
+	接口：来自网络
+ -->
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0" />
+		<title>随机句子 - </title>
+		<meta name="author" content="bzxg" />
+		<!-- 样式 start -->
+		<style>
+			* {
+				padding: 0;
+				margin: 0;
+			}
+			
+			article{
+				width: 90%;
+				min-width: 280px;
+				position: fixed;
+				top: 50%;
+				left: 50%;
+				-webkit-transform: translate(-50%, -50%);
+				-moz-transform: translate(-50%, -50%);
+				-ms-transform: translate(-50%, -50%);
+				-o-transform: translate(-50%, -50%);
+				transform: translate(-50%, -50%);
+			}
+			
+			section#word {
+				color: #212529;
+				letter-spacing: 0.1em;
+				font-size: 2em;
+				font-weight: 400;
+				line-height: 1.5;
+				padding-bottom: 10px;
+				border-bottom: 2px dashed #666;
+				word-break: break-word;
+				text-align: center;
+			}
+			
+			article>button{
+				display: block;
+				width: 145px;
+				height: 35px;
+				line-height: 35px;
+				font-size: 14px;
+				text-align: center;
+				color: white;
+				border: none;
+				border-radius: 20px;
+				background: #666;
+				margin: 25px auto 0px;
+			}
+			
+			section#word span {
+				font-size: 0.8em;
+				font-weight: 300;
+			}
+
+			@media screen and (max-width:767px) {
+				body {
+					font-size: 0.8em;
+				}
+				article{
+					max-width: 600px;
+				}
+				article>button {
+					margin: 15px auto 0px;
+					width: 125px;
+					height: 30px;
+					line-height: 30px;
+				}
+			}
+
+			@media screen and (min-width:768px) {
+				article{
+					max-width:1000px;
+				}
+			}
+		</style>
+		<!-- 样式 end -->
+	</head>
+	<body>
+		<!-- 主体 start -->
+		<article>
+			<section id="word">
+				加载中...
+			</section>
+			<button type="button" onclick="location.reload();">再来一句！</button>
+		</article>
+		<!-- 主体 end -->
+		<!-- javascript strat -->
+		<script>
+			//api名称-地址
+			var apis = [{
+					name: "一言",
+					url: "https://v1.hitokoto.cn/?charset=utf-8&encode=text"
+				}, {
+					name: "毒鸡汤",
+					url: "http://api.btstu.cn/yan/api.php"
+				},
+				{
+					name: "土味情话",
+					url: "https://api.uomg.com/api/rand.qinghua?format=text"
+				},
+				{
+					name: "古诗词",
+					url: "https://v1.jinrishici.com/all.json"
+				}
+			];
+			//获取并显示句子
+			function getWordData() {
+				var word = document.getElementById("word");
+				var index = chioceApi();
+				var url = apis[index].url;
+				var name = apis[index].name;
+				document.title += name;
+				var xhr = new XMLHttpRequest();
+				xhr.open('get', url);
+				xhr.onreadystatechange = function() {
+					if (xhr.readyState === 4) {
+						var data = xhr.responseText;;
+						var result;
+						if (index == 3) {
+							var newdata = JSON.parse(data);
+							result = newdata.content + "<br/><span>" + newdata.author + "  - 《" + newdata.origin + "》</span>";
+						} else {
+							result = data;
+						}
+						word.innerHTML = result;
+					}
+				};
+				xhr.send();
+			}
+			//根据链接选择api
+			function chioceApi() {
+				var address = location.href;
+				var index; //存放索引
+				if (address.indexOf("?") != -1) {
+					var key = address.split("?")[1];
+					switch (key) {
+						case "a":
+							index = 0;
+							break;
+						case "b":
+							index = 1;
+							break;
+						case "c":
+							index = 2;
+							break;
+						case "d":
+							index = 3;
+							break;
+						default:
+							index = 0;
+							break;
+					}
+				} else {
+					index = 0;
+				}
+				return index;
+			}
+			//开始
+			getWordData();
+		</script>
+		<!-- javascript end -->
+	</body>
+</html>

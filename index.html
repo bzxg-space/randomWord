@@ -13,9 +13,9 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8" name="viewport" content="width=device-width,initial-scale=1.0" />
-                <!--解决http警报-->
-                <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
-		<title>随机句子 - </title>
+		<!--解决http警报-->
+        <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
+		<title>随机句子 -</title>
 		<meta name="author" content="bzxg" />
 		<!-- 样式 start -->
 		<style>
@@ -125,7 +125,7 @@
 				var index = chioceApi();
 				var url = apis[index].url;
 				var name = apis[index].name;
-				document.title += name;
+				document.title += ' '+name;
 				var xhr = new XMLHttpRequest();
 				xhr.open('get', url);
 				xhr.onreadystatechange = function() {

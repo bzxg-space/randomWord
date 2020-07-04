@@ -24,6 +24,19 @@
 				margin: 0;
 			}
 			
+			/*去除点击button时外边的框框 
+			by https://blog.csdn.net/water_Popcorn/article/details/90480349*/
+			button:focus,
+			button:active:focus,
+			button.active:focus,
+			button.focus,
+			button:active.focus,
+			button.active.focus {
+				outline: none;
+				border-color: transparent;
+				box-shadow: none;
+			}
+			
 			article{
 				width: 90%;
 				min-width: 280px;
@@ -35,6 +48,9 @@
 				-ms-transform: translate(-50%, -50%);
 				-o-transform: translate(-50%, -50%);
 				transform: translate(-50%, -50%);
+				/*解决文字过多居中显示不全*/
+				max-height: 100%;
+				overflow: auto;
 			}
 			
 			section#word {
@@ -61,6 +77,11 @@
 				border-radius: 20px;
 				background: #666;
 				margin: 25px auto 0px;
+			}
+			
+			article>button:hover{
+				background: #888;
+				font-weight: bold;
 			}
 			
 			section#word span {
@@ -95,7 +116,7 @@
 		<!-- 主体 start -->
 		<article>
 			<section id="word">
-				加载中...
+				:D 获取中...
 			</section>
 			<button type="button" onclick="location.reload();">再来一句！</button>
 		</article>
@@ -129,7 +150,7 @@
 				var xhr = new XMLHttpRequest();
 				xhr.open('get', url);
 				xhr.onreadystatechange = function() {
-					if (xhr.readyState === 4) {
+					if (xhr.readyState === 4.&&xhr.status==200) {
 						var data = xhr.responseText;;
 						var result;
 						if (index == 3) {
